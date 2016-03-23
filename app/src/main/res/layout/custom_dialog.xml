@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@mipmap/bg_volume"
+    android:orientation="vertical" >
+    <com.p12126.dialogtest.CircleView
+        android:id="@+id/circle_view"
+        android:layout_width="161dp"
+        android:layout_height="161dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginLeft="189dp">
+        <TextView
+            android:id="@+id/volume_value"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="20dp"
+            android:text="100"
+            android:layout_margin="60dp"
+            />
+    </com.p12126.dialogtest.CircleView>
+</FrameLayout>
