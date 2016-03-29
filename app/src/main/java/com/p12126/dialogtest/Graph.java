@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Region;
+import android.util.Log;
 
 /**
  * Created by P12126 on 2016-03-22.
@@ -23,6 +24,7 @@ public class Graph implements Circle {
 
     private int mWidth;
     private int mHeight;
+    private float mMax;
 
     public Graph() {
         mPath = new Path();
@@ -47,8 +49,7 @@ public class Graph implements Circle {
         canvas.save();
         mPath.reset();
         canvas.clipPath(mPath); // makes the clip empty
-        // 클립영역으로 원이 출력이 됩니다.
-        // 원 부분만 출력이 되고 나머지는 배경이 나오게 됩니다.
+
         mPath.addCircle(mCenterX, mCenterY, mRadius, Path.Direction.CCW);
         canvas.clipPath(mPath, Region.Op.REPLACE);
         if (mEndAnimating) {
@@ -61,7 +62,7 @@ public class Graph implements Circle {
         canvas.save();
         canvas.rotate(mSurfaceDegree, mCenterX, mCenterY);
         paint.setColor(Color.RED);
-        canvas.drawRect(mLeft, mValue, mRight, bottom, paint);
+        canvas.drawRect(mLeft, bottom - mValue, mRight, bottom, paint);
         canvas.restore();
 
         canvas.restore();
@@ -89,6 +90,18 @@ public class Graph implements Circle {
             } else {
                 mRadius = mWidth / 2;
             }
+            if (mMax == 0) {
+                mMax = mHeight;
+            }
         }
+    }
+    public void setCurrentValue(int value) {
+        float convertedValue = (value / mMax) * (mHeight);
+        Log.v(TAG, "setCurrentValue = " + convertedValue);
+        setValue(convertedValue);
+    }
+
+    public void setMax(int max) {
+        mMax = max;
     }
 }

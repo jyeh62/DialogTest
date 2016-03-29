@@ -10,9 +10,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +25,8 @@ public class CustomDialog extends Dialog{
 
     private static final String TAG = "CustomDialog";
     private int mType = 0;
+    private CircleView mCircle;
+    private AudioManager mAudioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class CustomDialog extends Dialog{
         getWindow().setAttributes(lp);
 
         setContentView(R.layout.custom_dialog);
-        CircleView mCircle = (CircleView)findViewById(R.id.circle_view);
+        mCircle = (CircleView)findViewById(R.id.circle_view);
         mCircle.setType(mType);
         final TextView mTextView = (TextView)findViewById(R.id.volume_value);
 
@@ -69,20 +73,42 @@ public class CustomDialog extends Dialog{
         mType = type;
     }
 
-    public CustomDialog(Context context , String title ,
-                        View.OnClickListener singleListener) {
-        super(context , android.R.style.Theme_Translucent_NoTitleBar);
-    }
-
-    public CustomDialog(Context context , String title , String content ,
-                        View.OnClickListener leftListener , View.OnClickListener rightListener) {
-        super(context , android.R.style.Theme_Translucent_NoTitleBar);
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean ret = super.dispatchTouchEvent(ev);
         Log.d(TAG, "dispatchTouchEvent event = " + ev.getActionMasked() + ", ret = " + ret);
         return false;
     }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        Log.d(TAG, "dispatchKeyEvent event = " + event);
+        int keyCode = event.getKeyCode();
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            synchronized (this) {
+                if (mAudioManager == null) {
+                    mAudioManager = (AudioManager) getContext().getSystemService(
+                            Context.AUDIO_SERVICE);
+                }
+            }
+            // Volume buttons should only function for music (local or remote).
+            // TODO: Actually handle MUTE.
+            mAudioManager.adjustSuggestedStreamVolume(
+                    keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                            ? AudioManager.ADJUST_RAISE
+                            : AudioManager.ADJUST_LOWER /* direction */,
+                    AudioManager.STREAM_MUSIC /* stream */, 0 /* flags */);
+            // Don't execute default volume behavior
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    public void setValue(int value) {
+        if (mCircle != null) {
+            mCircle.setCurrentValue(value);
+        }
+    }
+
 }

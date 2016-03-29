@@ -10,4 +10,7 @@ public interface Circle {
     void setValue(float value);
     float getValue();
     void onLayout(boolean changed, int left, int top, int right, int bottom);
+
+    void setMax(int max);
+    void setCurrentValue(int value);
 }

@@ -53,6 +53,7 @@ public class CircleView extends RelativeLayout {
     private int mStep = 30;
     private int[] mColors = { 0xFF00FFFF, 0xfFFF00FF, 0x3F023FFF, 0x0AF0032FF, 0x0500F0FF};
     private int mType;
+    private float mMax = 0;
 
     public CircleView(Context context) {
         this(context, null);
@@ -67,7 +68,9 @@ public class CircleView extends RelativeLayout {
         setWillNotDraw(false);
         mPath = new Path();
         mGraph = new Graph();
+        mGraph.setMax(100);
         mRipple = new Ripple();
+        mRipple.setMax(100);
     }
 
     @Override
@@ -138,6 +141,7 @@ public class CircleView extends RelativeLayout {
                     + ", y = " + center_y
                     + ", mRadius = " + mRadius
                     + ", mStep = " + mStep);
+
             mCircle = getCircle();
             if (mCircle != null) {
                 mCircle.onLayout(true, left, top, right, bottom);
@@ -325,5 +329,25 @@ public class CircleView extends RelativeLayout {
             return mRipple;
         }
         return mGraph;
+    }
+
+    public void setCurrentValue(int value) {
+        if (mCircle == null) {
+            mCircle = getCircle();
+        }
+        if (mCircle != null) {
+            mCircle.setCurrentValue(value);
+        }
+        invalidate();
+    }
+
+    public void setMax(int max) {
+        if (mCircle == null) {
+            mCircle = getCircle();
+        }
+        if (mCircle != null) {
+            mCircle.setMax(max);
+        }
+        invalidate();
     }
 }

@@ -27,6 +27,7 @@ public class Ripple implements Circle {
     private int mHeight;
     private int mStep = 30;
     private int[] mColors = { 0xFF00FFFF, 0xfFFF00FF, 0x3F023FFF, 0x0AF0032FF, 0x0500F0FF};
+    private float mMax;
 
     public Ripple() {
         mPath = new Path();
@@ -86,6 +87,19 @@ public class Ripple implements Circle {
                     + ", y = " + mCenterY
                     + ", mRadius = " + mRadius
                     + ", mStep = " + mStep);
+            if (mMax == 0) {
+                mMax = mRadius;
+            }
         }
+    }
+
+    public void setCurrentValue(int value) {
+        float convertedValue = (value / mMax) * mRadius;
+        Log.v(TAG, "setCurrentValue = " + convertedValue);
+        setValue(convertedValue);
+    }
+
+    public void setMax(int max) {
+        mMax = max;
     }
 }
