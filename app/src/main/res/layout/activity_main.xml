@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:gravity="bottom">
 
     <Button
         android:id="@+id/b2_canvas"
@@ -17,5 +19,13 @@
         android:layout_height="wrap_content"
         android:text="C_USE_CANVAS"
         android:onClick="onClickView"
+        />
+    <Button
+        android:id="@+id/c_bitmap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="C_USE_bitmap"
+        android:onClick="onClickView"
+        android:layout_gravity="bottom"
         />
 </LinearLayout>

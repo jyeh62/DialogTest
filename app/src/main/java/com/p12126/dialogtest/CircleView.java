@@ -32,6 +32,8 @@ public class CircleView extends RelativeLayout {
     private static final int MAX_CIRCLE = 5;
     private final Path mPath;
     private Circle mCircle;
+    private Circle mRipple;
+    private Circle mGraph;
     float width;
 
     float height;
@@ -64,7 +66,8 @@ public class CircleView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
         mPath = new Path();
-        mCircle = new Graph();
+        mGraph = new Graph();
+        mRipple = new Ripple();
     }
 
     @Override
@@ -73,6 +76,7 @@ public class CircleView extends RelativeLayout {
         //mRadius = mRadius - 9; //?
         //drawCircirB(canvas);
         //drawCircirC(canvas);
+        mCircle = getCircle();
         if( mCircle != null) {
             mCircle.drawCircle(canvas);
         }
@@ -99,6 +103,7 @@ public class CircleView extends RelativeLayout {
                 Log.d(TAG, "onTouhEvent "
                         + ", dist = " + dist);
                 circleWidth = (int)dist;
+                mCircle = getCircle();
                 if( mCircle != null) {
                     mCircle.setValue(circleWidth);
                 }
@@ -133,6 +138,7 @@ public class CircleView extends RelativeLayout {
                     + ", y = " + center_y
                     + ", mRadius = " + mRadius
                     + ", mStep = " + mStep);
+            mCircle = getCircle();
             if (mCircle != null) {
                 mCircle.onLayout(true, left, top, right, bottom);
             }
@@ -154,7 +160,8 @@ public class CircleView extends RelativeLayout {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 circleWidth = (int)animation.getAnimatedValue();
-                if( mCircle != null) {
+                mCircle = getCircle();
+                if(mCircle != null) {
                     mCircle.setValue(circleWidth);
                 }
                 invalidate();
@@ -311,4 +318,12 @@ public class CircleView extends RelativeLayout {
         mType = type;
     }
 
+    public Circle getCircle() {
+        if (mType == 0) {
+            return mGraph;
+        } else if (mType ==1 ) {
+            return mRipple;
+        }
+        return mGraph;
+    }
 }

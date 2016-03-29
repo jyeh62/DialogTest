@@ -2,12 +2,15 @@ package com.p12126.dialogtest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import static android.graphics.Color.TRANSPARENT;
 
 public class MainActivity extends Activity {
 
@@ -18,23 +21,19 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getWindow().setStatusBarColor(TRANSPARENT);
+        //getWindow().setNavigationBarColor(TRANSPARENT);
         setContentView(R.layout.activity_main);
     }
 
     public void onClickView(View v){
         switch (v.getId()) {
             case R.id.b2_canvas:
-                mCustomDialog = new CustomDialog(this,"title",
-                        "content",
-                        leftClickListener,
-                        rightClickListener);
+                mCustomDialog = new CustomDialog(this, 0);
                 mCustomDialog.show();
                 break;
             case R.id.c_canvas:
-                mCUseCanvasDialog = new CustomDialog(this,"title",
-                        "content",
-                        leftClickListener,
-                        rightClickListener);
+                mCUseCanvasDialog = new CustomDialog(this,1);
                 mCUseCanvasDialog.show();
                 break;
         }
