@@ -31,6 +31,7 @@ public class CircleView extends RelativeLayout {
     private static final float MAX_SURFAE_DEGREE = 10f;
     private static final int MAX_CIRCLE = 5;
     private final Path mPath;
+    private Circle mCircle;
     float width;
 
     float height;
@@ -63,14 +64,18 @@ public class CircleView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
         mPath = new Path();
+        mCircle = new Graph();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //mRadius = mRadius - 9; //?
-        drawCircirB(canvas);
+        //drawCircirB(canvas);
         //drawCircirC(canvas);
+        if( mCircle != null) {
+            mCircle.drawCircle(canvas);
+        }
     }
 
     @Override
@@ -94,6 +99,9 @@ public class CircleView extends RelativeLayout {
                 Log.d(TAG, "onTouhEvent "
                         + ", dist = " + dist);
                 circleWidth = (int)dist;
+                if( mCircle != null) {
+                    mCircle.setValue(circleWidth);
+                }
                 mEndAnimating = true;
                 invalidate();
                 break;
@@ -125,6 +133,9 @@ public class CircleView extends RelativeLayout {
                     + ", y = " + center_y
                     + ", mRadius = " + mRadius
                     + ", mStep = " + mStep);
+            if (mCircle != null) {
+                mCircle.onLayout(true, left, top, right, bottom);
+            }
         }
     }
 
@@ -143,6 +154,9 @@ public class CircleView extends RelativeLayout {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 circleWidth = (int)animation.getAnimatedValue();
+                if( mCircle != null) {
+                    mCircle.setValue(circleWidth);
+                }
                 invalidate();
                 //Log.v(TAG, "onAnimationUpdate mCurrentValue = " + mCurrentValue);
             }
