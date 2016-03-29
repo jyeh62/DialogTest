@@ -67,9 +67,9 @@ public class CircleView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
         mPath = new Path();
-        mGraph = new Graph();
+        mGraph = new Graph(context);
         mGraph.setMax(100);
-        mRipple = new Ripple();
+        mRipple = new Ripple(context);
         mRipple.setMax(100);
     }
 

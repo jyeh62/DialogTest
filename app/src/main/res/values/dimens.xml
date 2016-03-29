@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="common_circle_raidus">74dp</dimen>
+    <dimen name="ripple_circle_raidus">130dp</dimen>
 </resources>

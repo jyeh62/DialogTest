@@ -27,6 +27,7 @@ public class CustomDialog extends Dialog{
     private int mType = 0;
     private CircleView mCircle;
     private AudioManager mAudioManager;
+    private TextView mLevelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +50,20 @@ public class CustomDialog extends Dialog{
         lp.width = dm.widthPixels;
         lp.height = dm.heightPixels;
         getWindow().setAttributes(lp);
+        if (mType == 1) {
+            setContentView(R.layout.custom_dialog_ripple);
+        } else {
+            setContentView(R.layout.custom_dialog);
+        }
 
-        setContentView(R.layout.custom_dialog);
         mCircle = (CircleView)findViewById(R.id.circle_view);
         mCircle.setType(mType);
-        final TextView mTextView = (TextView)findViewById(R.id.volume_value);
+        mLevelView = (TextView)findViewById(R.id.volume_value);
 
         mCircle.setOnAngleChangedListener(new OnAngleChangedListener() {
             @Override
             public void onAngleChanged(float angle) {
-                mTextView.setText(""+angle);
+                mLevelView.setText(""+angle);
             }
         });
     }
@@ -84,6 +89,8 @@ public class CustomDialog extends Dialog{
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         Log.d(TAG, "dispatchKeyEvent event = " + event);
+        if (event.getAction() == KeyEvent.ACTION_UP)
+            return false;
         int keyCode = event.getKeyCode();
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             synchronized (this) {
@@ -106,6 +113,7 @@ public class CustomDialog extends Dialog{
     }
 
     public void setValue(int value) {
+        mLevelView.setText(value + "");
         if (mCircle != null) {
             mCircle.setCurrentValue(value);
         }

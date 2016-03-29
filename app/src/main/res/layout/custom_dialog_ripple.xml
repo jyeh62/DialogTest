@@ -2,15 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:background="@mipmap/bg_volume"
     android:orientation="vertical" >
     <com.p12126.dialogtest.CircleView
         android:id="@+id/circle_view"
-        android:layout_width="148dp"
-        android:layout_height="148dp"
-        android:layout_marginTop="123dp"
-        android:layout_marginLeft="189dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_width="259dp"
+        android:layout_height="259dp">
         <TextView
             android:id="@+id/volume_value"
             android:layout_width="wrap_content"
